@@ -20,7 +20,7 @@
         <div class="lr-container">
 
             <div class="lr-logo">
-                <a href="/">
+                <a href="index.html">
                     <img decoding="async" src="assets/Untitled-1920-x-1080-px-111-scaled.png" alt="MJH">
                 </a>
             </div>
@@ -28,7 +28,7 @@
             <div class="lr-nav-terminal">
                 <nav class="lr-desktop-nav">
                     <ul class="lr-nav-list">
-                        <li><a href="/" class="lr-link">Home</a></li>
+                        <li><a href="index.html" class="lr-link">Home</a></li>
                         <li><a href="about-us.html" class="lr-link">About US</a></li>
 
                         <li class="lr-has-dropdown">
@@ -39,43 +39,43 @@
     <ul class="lr-normal-dropdown">
 
         <li>
-            <a href="/collection/?category=necklaces" class="lr-hash-trigger">
+            <a href="collection.html?category=necklaces" class="lr-hash-trigger">
                 <i class="fas fa-gem"></i> Necklaces
             </a>
         </li>
 
         <li>
-            <a href="/collection/?category=rings" class="lr-hash-trigger">
+            <a href="collection.html?category=rings" class="lr-hash-trigger">
                 <i class="fas fa-circle"></i> Rings
             </a>
         </li>
 
         <li>
-            <a href="/collection/?category=earrings" class="lr-hash-trigger">
+            <a href="collection.html?category=earrings" class="lr-hash-trigger">
                 <i class="fas fa-circle-dot"></i> Earrings
             </a>
         </li>
 
         <li>
-            <a href="/collection/?category=bracelets" class="lr-hash-trigger">
+            <a href="collection.html?category=bracelets" class="lr-hash-trigger">
                 <i class="fas fa-link"></i> Bracelets
             </a>
         </li>
 
         <li>
-            <a href="/collection/?category=pendants" class="lr-hash-trigger">
+            <a href="collection.html?category=pendants" class="lr-hash-trigger">
                 <i class="fas fa-heart"></i> Pendants
             </a>
         </li>
 
         <li>
-            <a href="/collection/?category=bridal-sets" class="lr-hash-trigger">
+            <a href="collection.html?category=bridal-sets" class="lr-hash-trigger">
                 <i class="fas fa-crown"></i> Bridal Sets
             </a>
         </li>
 
         <li>
-            <a href="/collection/?category=bangles" class="lr-hash-trigger">
+            <a href="collection.html?category=bangles" class="lr-hash-trigger">
                 <i class="fas fa-star"></i> Bangles
             </a>
         </li>
@@ -113,7 +113,7 @@
         Home
     </a>
 </li>
-            <li><a href="/who-we-are/" class="lr-link">About US</a></li>
+            <li><a href="about-us.html" class="lr-link">About US</a></li>
 
             <li class="lr-m-parent">
 
@@ -124,43 +124,43 @@
     <ul class="lr-m-child">
 
         <li>
-            <a href="/collection/?category=necklaces" class="lr-hash-trigger">
+            <a href="collection.html?category=necklaces" class="lr-hash-trigger">
                 <i class="fas fa-gem mobile-icon"></i> Necklaces
             </a>
         </li>
 
         <li>
-            <a href="/collection/?category=rings" class="lr-hash-trigger">
+            <a href="collection.html?category=rings" class="lr-hash-trigger">
                 <i class="fas fa-circle mobile-icon"></i> Rings
             </a>
         </li>
 
         <li>
-            <a href="/collection/?category=earrings" class="lr-hash-trigger">
+            <a href="collection.html?category=earrings" class="lr-hash-trigger">
                 <i class="fas fa-circle-dot mobile-icon"></i> Earrings
             </a>
         </li>
 
         <li>
-            <a href="/collection/?category=bracelets" class="lr-hash-trigger">
+            <a href="collection.html?category=bracelets" class="lr-hash-trigger">
                 <i class="fas fa-link mobile-icon"></i> Bracelets
             </a>
         </li>
 
         <li>
-            <a href="/collection/?category=pendants" class="lr-hash-trigger">
+            <a href="collection.html?category=pendants" class="lr-hash-trigger">
                 <i class="fas fa-heart mobile-icon"></i> Pendants
             </a>
         </li>
 
         <li>
-            <a href="/collection/?category=bridal-sets" class="lr-hash-trigger">
+            <a href="collection.html?category=bridal-sets" class="lr-hash-trigger">
                 <i class="fas fa-crown mobile-icon"></i> Bridal Sets
             </a>
         </li>
 
         <li>
-            <a href="/collection/?category=bangles" class="lr-hash-trigger">
+            <a href="collection.html?category=bangles" class="lr-hash-trigger">
                 <i class="fas fa-star mobile-icon"></i> Bangles
             </a>
         </li>
@@ -176,7 +176,7 @@
 </li>
         </ul>
 
-        <a href="/contact-us/" class="lr-drawer-cta">Book Appointment </a>
+        <a href="contact-us.html" class="lr-drawer-cta">Book Appointment </a>
     </div>
     <div class="lr-overlay" id="lrOverlay"></div>
 </div>
@@ -1450,15 +1450,22 @@ const perPage = 15;
 let currentPage = 1;
 
 function getFilteredProducts(){
-const searchValue = searchBox.value.toLowerCase();
+// every typed word must appear in the product's name, category, description or weight
+const words = searchBox.value.toLowerCase().trim().split(/\s+/).filter(Boolean);
 
 return products.filter(product=>{
 const categoryMatch =
 currentCategory==="all" || product.category===currentCategory;
 
-const searchMatch =
-product.name.toLowerCase().includes(searchValue) ||
-product.description.toLowerCase().includes(searchValue);
+const haystack = [
+product.name,
+product.category,
+product.category.replace(/-/g," "),
+product.description || "",
+product.weight || ""
+].join(" ").toLowerCase();
+
+const searchMatch = words.every(word=>haystack.includes(word));
 
 return categoryMatch && searchMatch;
 });
@@ -1524,7 +1531,16 @@ renderProducts();
 productsGrid.scrollIntoView({behavior:"smooth", block:"start"});
 });
 
-searchBox.addEventListener("keyup", ()=>{
+// "input" also catches paste, autofill and the clear button, not just key presses
+searchBox.addEventListener("input", ()=>{
+// searching looks through the whole collection, so switch the pills back to "All"
+if(searchBox.value.trim() && currentCategory !== "all"){
+currentCategory = "all";
+filterButtons.forEach(btn=>{
+btn.classList.toggle("active", btn.dataset.filter === "all");
+});
+updateURL("all");
+}
 currentPage = 1;
 renderProducts();
 });
