@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "mjh-site",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["C:/Users/USER/MHJ/.claude/serve.js", "C:/Users/USER/MHJ"],
+      "port": 8081
+    }
+  ]
+}

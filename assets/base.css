@@ -1,0 +1,23 @@
+/* Base styles matching the original WordPress (Astra theme) defaults */
+html,body{margin:0;padding:0;}
+body{background:#fff;color:#334155;}
+/* Theme page background wins over the plain body{} rules inside the section blocks */
+html body{background-color:#fff;}
+body{color:#334155;font-size:16px;line-height:1.65;font-weight:400;-webkit-font-smoothing:antialiased;}
+h1,h2,h3,h4,h5,h6{color:#1e293b;font-weight:600;font-family:Montserrat,sans-serif;margin:0;}
+h1{font-size:40px;line-height:1.4;}
+h2{font-size:30px;line-height:1.3;}
+h3{font-size:24px;line-height:1.3;}
+h4{font-size:20px;line-height:1.2;}
+h5{font-size:18px;line-height:1.2;}
+h6{font-size:16px;line-height:1.25;}
+p{margin:0 0 1.75em;}
+a{color:#046bd2;text-decoration:none;}
+ul,ol{margin:0 0 1.5em 3em;padding:0;}
+strong,b{font-weight:700;}
+img{max-width:100%;height:auto;border:none;vertical-align:middle;}
+button{font-family:Montserrat,sans-serif;font-size:16px;line-height:1;font-weight:500;color:#fff;background:#674d26;border:0 solid #674d26;border-radius:4px;padding:15px 30px;cursor:pointer;}
+input,textarea,select{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;font-size:16px;}
+textarea,select{color:#475569;background:#fff;border:1px solid #d1d5db;border-radius:4px;}
+textarea{padding:12px 16px;line-height:1.5;}
+select{padding:6px 10px;}
